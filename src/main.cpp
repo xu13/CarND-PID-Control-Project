@@ -71,10 +71,10 @@ int main()
 
  // DEBUG
  // std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
- // printf("time: %f, CTE: % 5.3f, Steer: % 5.3f, P_err: % 5.3f, I_err: % 5.3f, D_err: % 5.3f\n", t.count(), cte, steer_value,
+ // printf("Time: %f, CTE: % 5.3f, Steer: % 5.3f, P_err: % 5.3f, I_err: % 5.3f, D_err: % 5.3f\n", t.count(), cte, steer_value,
  // pid.p_error_, pid.i_error_, pid.d_error_);
-          printf("CTE: % 5.3f, Steer: % 5.3f, P_term: % 5.3f, I_term: % 5.3f, D_term: % 5.3f, Average CTE: %5.3f\n",
-                 cte, steer_value,
+          printf("Time: %f, CTE: % 5.3f, Steer: % 5.3f, P_term: % 5.3f, I_term: % 5.3f, D_term: % 5.3f, Average CTE: %5.3f\n",
+                 t, cte, steer_value,
                  pid.getP(), pid.getI(), pid.getD(), pid.average_error_);
 
           json msgJson;

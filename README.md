@@ -14,11 +14,16 @@ Self-Driving Car Engineer Nanodegree Program
 
 ### Parameter tuning
 
-The final parameters are tuned manually for a throttle of 70% which corresponds to vehicle driving around 75mph in the simulator.
+The final parameters are tuned manually for a throttle of 70% which corresponds to vehicle driving around 75mph in the simulator. As the reference speed is high, the simulation needs to be run on the fastest graphics setting as the higher resolution leads to very control frequency which in turn causes the controller to be unstable.
 
 First, I set the integral gain Ki and derivative gain Kd to zero, increase the proportional gain Kp until the car is oscillating around the center of lane when driving straight. Since the speed is high, we want small gain such that a small change in CTE won't result in a large steering angle. Then I increase the derivative gain Kd to smooth out the oscillation and it can smoothly pass the whole track. In the simulator, there is no systematic error, so even without the integral term, the car is able to drive around the track. Finally I increase Ki to help with the corners. This is because when the car is making a shape turn, the CTE quickly builds up, and integral term plays a role to push it back to the center. However, when the car goes back to the center, it needs to stay on the other side of the center for a while for the integral term to vanish. That's why I also saturate the integrated error to alleviate this problem.
 
-In order to use algorithms like Twiddle, I would recommend Udacity to add a reset API to the simulator so we can fairly compare the performance. Moreover, it is necessary to know the position in the global coordinates so we know the car is back to the beginning and we can restart.
+Here is my result, click on the image to see the video on YouTube:
+
+<a href="https://youtu.be/l2x5U3mv-LA" target="_blank">
+<img src="http://img.youtube.com/vi/l2x5U3mv-LA/0.jpg"
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" />
+</a>
 
 ## Dependencies
 

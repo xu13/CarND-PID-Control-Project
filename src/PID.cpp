@@ -19,7 +19,6 @@ void PID::Init(double kp, double ki, double kd)
   p_error_      = 0;
   i_error_      = 0;
   d_error_      = 0;
-  d_error_prev_ = 0;
 
   steps_         = 0;
   average_error_ = 0;
@@ -28,10 +27,7 @@ void PID::Init(double kp, double ki, double kd)
 
 void PID::UpdateError(double cte)
 {
-  double alpha = 1.0;
-  d_error_      = (1 - alpha) * d_error_prev_ + alpha * (cte - p_error_);
-  d_error_prev_ = d_error_;
-
+  d_error_      = cte - p_error_;
   p_error_  = cte;
   i_error_ += cte;
   i_error_  = std::min(std::max(i_error_, -100.0), 100.0);
