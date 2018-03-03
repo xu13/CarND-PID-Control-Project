@@ -2,6 +2,23 @@
 Self-Driving Car Engineer Nanodegree Program
 
 ---
+## Reflection
+
+### Effect of P, I, D components
+
+* Proportional term: it produces an output that is proportional to the cross track error at time t. For a given cross track error, a large proportional gain will result in a large change in the output steering angle, and vice versa. If the proportional gain is set too high, the car will oscillate around the center of lane and result in an unstable behavior. On the other hand, if the proportional gain is set too low, the output steering angle will not be large enough to correct the cross track error, and result in an unresponsive behavior.
+
+* Integral term: it produces an output that take into account the integral of the cross track error up to time t. This integral term accelerates the car moving towards the center of lane. It also eliminates the effect of systematic bias. However, since the integral term responds to accumulated errors, it can cause the system to overshoot.
+
+* Derivative term: it produces an output that depends on the rate of change in the cross track error. It provides additional steer when the car moves away from the center of lane, and counter steers as the car moves towards the center of lane. This will help the car to smoothly steer towards the center of lane thus preventing the overshoot caused by the proportional term.
+
+### Parameter tuning
+
+The final parameters are tuned manually for a throttle of 70% which corresponds to vehicle driving around 75mph in the simulator.
+
+First, I set the integral gain Ki and derivative gain Kd to zero, increase the proportional gain Kp until the car is oscillating around the center of lane when driving straight. Since the speed is high, we want small gain such that a small change in CTE won't result in a large steering angle. Then I increase the derivative gain Kd to smooth out the oscillation and it can smoothly pass the whole track. In the simulator, there is no systematic error, so even without the integral term, the car is able to drive around the track. Finally I increase Ki to help with the corners. This is because when the car is making a shape turn, the CTE quickly builds up, and integral term plays a role to push it back to the center. However, when the car goes back to the center, it needs to stay on the other side of the center for a while for the integral term to vanish. That's why I also saturate the integrated error to alleviate this problem.
+
+In order to use algorithms like Twiddle, I would recommend Udacity to add a reset API to the simulator so we can fairly compare the performance. Moreover, it is necessary to know the position in the global coordinates so we know the car is back to the beginning and we can restart.
 
 ## Dependencies
 
@@ -19,7 +36,7 @@ Self-Driving Car Engineer Nanodegree Program
   * Run either `./install-mac.sh` or `./install-ubuntu.sh`.
   * If you install from source, checkout to commit `e94b6e1`, i.e.
     ```
-    git clone https://github.com/uWebSockets/uWebSockets 
+    git clone https://github.com/uWebSockets/uWebSockets
     cd uWebSockets
     git checkout e94b6e1
     ```
@@ -33,7 +50,7 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 1. Clone this repo.
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./pid`. 
+4. Run it: `./pid`.
 
 Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
 
@@ -95,4 +112,3 @@ still be compilable with cmake and make./
 
 ## How to write a README
 A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
-
